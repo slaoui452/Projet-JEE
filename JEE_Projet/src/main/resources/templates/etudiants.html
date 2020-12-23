@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeLeaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="...">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style1.css">
+    <title>JeeApp_Absence</title>
+  </head>
+  <body>
+<script type="text/javascript" src="script/LOSU.js"></script>
+    <header>
+            <button onclick="Signup1()" class="loggin">Espace Etudiant</button>
+            <button onclick="Login1()" class="log">Espace Professeur</button>
+          <div id="id01" class="modal">
+
+              <div class="modal-content animate">
+                <div class="container">
+                  <div id="id02" class="signnup">
+                    <form th:action="@{/Espace_Etudiant}" method="get" >
+                      <input type="text" placeholder="Entrez Votre Code" name="uidetd">
+                      <button type="submit">Se Connecter</button>
+
+                    </form>
+                </div>
+                <form th:action="@{/Espace_Profs}" method="get">
+
+                  <input type="text" placeholder="Entrez Votre Code" name="uidprof" id="euL">
+                  <input type="text" placeholder="Entrez le Groupe" name="groupe" id="id09">
+
+                  <div id="id04">
+
+                  <button type="submit">Se Connecter</button>
+
+                  <p class="erreurmes">
+
+              </p>
+
+                  </div>
+                  <div id="id03" class="signnup">
+                  <p  class="erreurmes">
+                  </p>
+                  </div>
+
+                </form>
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1; border-radius:10px;">
+                  <button type="button" onclick="Cancel()" class="cancelbtn">Cancel</button>
+
+                </div>
+              </form>
+            </div>
+</div>
+
+
+    <script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>

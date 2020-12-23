@@ -1,0 +1,50 @@
+@charset "ISO-8859-1";
+h6{
+	 font-size:65px;
+	   margin-left: auto;
+  		margin-right: auto;
+  		height : 23vh;
+}
+h1{
+	 font-size: 38px;
+}
+.centerh2{
+  text-align:center;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.centerimg{
+  display:block;
+  margin-left:auto;
+  margin-right: auto;
+  width: 21%
+}
+#maTable2 { 
+  width: 100%;
+  border-collapse: collapse;
+}
+#maTable2 th, #maTable2 td {
+  padding: 3px;
+  border: 0.5px solid #000;
+  text-align: center;
+}
+#maTable2 th {
+  background: #990000;
+  color: white;
+  font-weight: bold;
+}
+.centerinput{
+	margin:0px auto; 
+	display:block;
+	width: 23%; 
+	height:30px;
+	border: 1.5px solid ;
+}
+.centerbtn{
+	margin:0px auto; 
+	display:block;
+	width: 18%; 
+	height:30px;
+	border: 1.5px solid ;
+}

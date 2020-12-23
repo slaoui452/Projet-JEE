@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeLeaf.org">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="StyleVue.css">
+<title>Welcome</title>
+
+</head>
+<body>
+
+<br><br><br>
+<h1 style="text-align:center"> Bienvenue, <span th:text="${etudiant.getNom()}"></span> <span th:text="${etudiant.getprenom()}"></span></h1>
+
+<br>
+		<h6 class="centerh2">Conférence avec le groupe <span th:text="${etudiant.getGroupe()}"></span></h6>
+		<form th:action="@{/TableauEtud}" method="get">
+		<input name="uidetd" type="hidden" th:value="${etudiant.getCode_etudiant()}">
+		<input name="QrCode" type="hidden" th:value="${etudiant.getCode_etudiant()}">
+		<button class="centerbtn" type="submit">Afficher Mes Absences</button>
+		</form>
+		<br><br>
+		<form th:action="@{/index}" method="get">
+		<button class="centerbtn" type="submit">Retour</button>
+		</form>
+</body>
+
+</html>

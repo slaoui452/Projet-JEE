@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeLeaf.org">
+<head>
+<meta charset="utf-8">
+<title>Tableau de presence</title>
+<link rel="stylesheet" href="StyleVue.css">
+</head>
+
+<body>
+<br><br>
+<h1 style="text-align:center"> Le tableau de votre absence par module</h1>
+
+<br><br>
+<table id="maTable2" style="width:35%;  margin-left:auto;margin-right: auto;">
+	<tr>
+	<th>Module</th><th>Nombre d'absence</th>
+	</tr>
+	<tr th:each="p:${Etudiant_Abs}">
+		<th th:text="${p[0]}"></th>
+		<td th:text="${p[1]}"></td>
+	</tr>
+</table>
+		<br><br>
+ <form th:action="@{/Conference}" method="get">
+
+    <input name="EtuId" type="hidden" th:value="${Code_Etudiant}">
+    <button type="submit" class="centerbtn"> Retour </button>
+
+  </form>
+</body>
+</html>

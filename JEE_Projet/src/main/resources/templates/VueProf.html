@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeLeaf.org">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="StyleVue.css">
+<title>Welcome</title>
+
+</head>
+<body>
+
+<br><br><br>
+<h1 style="text-align:center"> Bienvenue, <span th:text="${prof.getNom()}"></span> <span th:text="${prof.getprenom()}"></span></h1>
+
+		<h6 class="centerh2">Conférence avec le groupe <span th:text="${groupe}"></span></h6>
+		<form th:action="@{/Presence}" method="get">
+            <input name="uidprof" type="hidden" th:value="${code_prof}">
+            <input name="groupe" type="hidden" th:value="${groupe}">
+            <input name="matiere" type="hidden" th:value="${prof.getMatiere()}">
+		<button class="centerbtn" type="submit">Generer le tableau de presence</button>
+		</form>
+		<br>
+		<form th:action="@{/Acceuil}" method="get">
+		<input name="groupe" type="hidden" th:value="${groupe}">
+		
+		<button class="centerbtn" type="submit">Finir la Conference</button>
+		</form>
+</body>
+
+</html>
