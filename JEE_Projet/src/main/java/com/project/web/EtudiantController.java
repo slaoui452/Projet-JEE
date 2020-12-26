@@ -26,11 +26,34 @@ import com.project.dao.Seance_actvRepository;
 
 import java.util.ArrayList;
 import java.util.Base64;
-@Controller
 
+/**
+ * <b>EtudiantController est un Web Controller.</b>
+ *
+ * <p>
+ * Cette classe est un controlleur  spring MVC  utilisé pour implementer les traitement concernant les etudiants dans l'application web.
+ * </p>
+ * <p>
+ * l'annotation Controller permettera la detection de ces classes à travers le classpath scanning
+ * </p>
+ * @see Etudiant
+ * @author khalil
+ * 
+ */
+@Controller
 public class EtudiantController {
 	
-	
+	/**
+     * 	cherche un etudiant dans la base de données a travers son code.
+     *
+     * @param Code_Etudiant
+     *            	le code indentifiant l'etudiant cherché.
+     * @param etudiants
+     * 				liste implementant la table dans une base de donné de tout les élèves.
+     * @return	les attributs de l'etudiant cherché
+     * @see Etudiant 
+     * 				         
+     */
 	public static Etudiant GetByCode_etudiant(String Code_Etudiant, List<Etudiant> etudiants) {
 		int i =0;
 		while ((!etudiants.get(i).getCode_etudiant().equals(Code_Etudiant)) && i<etudiants.size()-1 ) {
@@ -41,6 +64,17 @@ public class EtudiantController {
 		else 
 			return null;
 	}
+	/**
+     * 	cherche a filtrer les etudiant appartenant a un groupe.
+     *
+     * @param groupe
+     *            	le groupe demandé.
+     * @param etudiants
+     * 				liste implementant la table dans base de donné de tout les élèves.
+     * @return	table contenant les eleve du groupe concerné
+     * @see Etudiant 
+     * 				         
+     */
 	
 	public static List<Etudiant> GetlisteByGroupe(int groupe, List<Etudiant> etudiants) {
 		List<Etudiant> liste = new ArrayList<Etudiant>();
@@ -51,26 +85,51 @@ public class EtudiantController {
 		}
 		return liste;
 	}
-
+	/**
+	 * injection des repositories et liaison des beans
+	 */
 	@Autowired
 	private EtudiantRepository etudiantrepository;
+	/**
+	 * injection des repositories et liaison des beans
+	 */
 	@Autowired
 	private Seance_actvRepository seance_actvrepository;
+	/**
+	 * injection des repositories et liaison des beans
+	 */
 	@Autowired
 	private ProfsRepository profsrepository;
+	/**
+	 * injection des repositories et liaison des beans
+	 */
 	@Autowired
 	private PresenceRepository presencerepository;
 	
 
-	
+	/**
+     * 	cherche un etudiant dans la base de données a travers son code.
+     *
+     *   @param model         	
+     * @return	la vue Etudiants
+     * 				         
+     */
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String index(Model model) {
-
 		 return "Etudiants";
 	}
 	
 
-
+	/**
+     * Permet de calculer le nombre d'absence d'un etudiant dans chaque matière.
+     *
+     * @param code_Etudiant
+     *            	le code indentifiant l'etudiant cherché.
+     *
+     * @return	un tableau double contenant la matière et le nombre de seance absenté correspondant.
+     * 
+     * 				         
+     */
 		public String[][] Get_Absence(String code_Etudiant) {
 			String[][] tab =new String[400][2];
 			List<Presencetable> presences=presencerepository.findAll();
@@ -93,12 +152,34 @@ public class EtudiantController {
 			tab[i][1]=Integer.toString(abs); // element 1 de chaque table est le nombre d abs sur chaque
 			
 			}
-			System.out.println("------>>>>>   " + tab[0][0].toString());
+			//System.out.println("------>>>>>   " + tab[0][0].toString());
 			return tab;
 		}
+	//----------------------------------------------------------------------------------------------------
 		
+		
+		/**
+	     * La methode Espace_Etudiant sera appelé a travers le Mapping c'est a dire à partir de l'url. Cette methode nous offre
+	     * plusieur fonctiannalité :
+	     * <ul>
+	     * <li>Verifier l'identification.</li>
+	     * <li>Savoir s'il exeste une seance active ou non avec son groupe</li>
+	     * <li>Générer Le Code QR.</li>
+	     * <li>Ajouter les attributs au model et faire appele à la page html adequate 
+	     * <ul>
+	     * <li>"Etudiants" : si les identifianr sont incorecte</li>
+	     * <li>"PasCours" : si le groupe n'a pas de seance active</li>
+	     * <li>"VueEtudiant" : si il existe une seance</li>
+	     * </ul>
+	     * </li>
+	     * </ul>
+	     * @param model
+	     * @param Code_Etudiant
+	     * @return page html
+
+	     */
 	@RequestMapping(value="/Espace_Etudiant",method=RequestMethod.GET)
-	public String index1(Model model,
+	public String Espace_Etudiant(Model model,
 			@RequestParam(name="uidetd",defaultValue="") String Code_Etudiant)  throws WriterException, IOException {
 		
 		 List<Seance_actv> seance_actv=seance_actvrepository.findAll();
@@ -132,10 +213,20 @@ public class EtudiantController {
 				}
 		 
 	}
+	//----------------------------------------------------------------------------------------------------
+
 	
-	
+	//----------------------------------------------------------------------------------------------------
+	/**
+     * Cette methode a pour but d'afficher les nombres d'absence par seance d'un etudiant a la demande.
+     * @param model
+     * @param Code_Etudiant
+     * 				code de l'etudiant concerné afin de pouvoire afficher les informations adequate
+     * @return La page HTML "EtudPres"
+     * 				         
+     */
 	@RequestMapping(value="/TableauEtud",method=RequestMethod.GET)
-	public String index2(Model model,
+	public String PresenceEtud(Model model,
 			@RequestParam(name="uidetd",defaultValue="") String Code_Etudiant){
 		 String[][] Etudiant_Abs=Get_Absence(Code_Etudiant);
 		 model.addAttribute("Etudiant_Abs",Etudiant_Abs);
@@ -143,9 +234,23 @@ public class EtudiantController {
 		 return "EtudPres";
 		 
 	}
+	//----------------------------------------------------------------------------------------------------
+
 
 	
 
+	/**
+     * 	Convertir une chaine de caractère en code QR 2D.
+     *
+     * @param text
+     *            	le code qu'on cherche a convertir.
+     * @param width
+     * 				largeur de l'image
+     * @param height
+     * 				
+     * @return	image du Qr code generé
+     * @see Etudiant 	         
+     */
 	
 	static byte[] getQRCodeImage(String text, int width, int height) throws WriterException, IOException {
 	    QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -156,6 +261,8 @@ public class EtudiantController {
 	    byte[] pngData = pngOutputStream.toByteArray(); 
 	    return pngData;
 	}
+	//----------------------------------------------------------------------------------------------------
+
 
 	
 	
