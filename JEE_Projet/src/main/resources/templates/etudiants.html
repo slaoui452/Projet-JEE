@@ -11,8 +11,11 @@
   <body>
 <script type="text/javascript" src="script/LOSU.js"></script>
     <header>
+    <div>
             <button onclick="Signup1()" class="loggin">Espace Etudiant</button>
             <button onclick="Login1()" class="log">Espace Professeur</button>
+            </div>
+            
           <div id="id01" class="modal">
 
               <div class="modal-content animate">
@@ -50,10 +53,11 @@
                   <button type="button" onclick="Cancel()" class="cancelbtn">Cancel</button>
 
                 </div>
-              </form>
+
             </div>
 </div>
 
+<h1 class="error"><span th:text="${ERREUR}"></span></h1>
 
     <script>
 function myFunction() {
@@ -65,3 +69,4 @@ function myFunction() {
   }
 }
 </script>
+</header>

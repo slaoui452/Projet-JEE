@@ -135,8 +135,7 @@ public class SeanceActvController {
      * 				         
      */
 	
-	public Presencetable GetByQRCode_Etd(String CodeQr, String Code_Etudiant) {
-		List<Presencetable> presence = presencerepository.findAll();
+	public static Presencetable GetByQRCode_Etd(String CodeQr, String Code_Etudiant,List<Presencetable> presence) {
 		int i = 0;
 		while(!presence.get(i).getCode_etudiant().equals(Code_Etudiant) || !presence.get(i).getCode_Seance().equals(CodeQr)) {
 			i++;
@@ -149,16 +148,22 @@ public class SeanceActvController {
 	
 	/**
      * Marquer la presence d'un etudiant dant la database
+	 * @return 
      *
      * @see #Acces(Model, String, String)
      * 				         
      */
 	
 	
-	public void present(String CodeQr, String Code_Etudiant) {
-		Presencetable ligneEtd = GetByQRCode_Etd(CodeQr,Code_Etudiant);
+	public static Presencetable present(String CodeQr, String Code_Etudiant,List<Presencetable> presence) {
+
+		Presencetable ligneEtd = GetByQRCode_Etd(CodeQr,Code_Etudiant,presence);
+		if (ligneEtd.isPresence()) {
+			return null;
+		}
 		ligneEtd.setPresence(true);
-		presencerepository.save(ligneEtd);
+		return ligneEtd;
+
 	}
 	
 	
@@ -199,7 +204,7 @@ public class SeanceActvController {
 		 List<Seance_actv> seance_actv=seance_actvrepository.findAll();
 		 List<Etudiant> etudiants=etudiantrepository.findAll();
 		 List<Profs> Profs=profsrepository.findAll();
-		 
+		 List<Presencetable> presence = presencerepository.findAll();
 		 Etudiant etudiant=EtudiantController.GetByCode_etudiant(Code_Etudiant,etudiants);
 		 Seance_actv SeanceActv=SeanceActvController.GetByGroupe(etudiant.getGroupe(),seance_actv);
 		 Profs prof=ProfsController.GetByCode_Prof(SeanceActv.getCode_prof(),Profs);
@@ -208,12 +213,14 @@ public class SeanceActvController {
 		 model.addAttribute("SeanceActv",SeanceActv);
 		 model.addAttribute("etudiant",etudiant);
 		 model.addAttribute("QR_1",Base64.getEncoder().encodeToString(EtudiantController.getQRCodeImage(SeanceActv.getMdp(),500,500)));
+		 
 		 if (CodeCorrect(CodeQr,SeanceActv.getMdp()))
 		 {
-			 present(CodeQr,Code_Etudiant);
+			 presencerepository.save(present(CodeQr,Code_Etudiant,presence));
 		     return "Conference";
 		     
 		 }
+		 model.addAttribute("ERREUR","ERREUR: Code incorrect, Veuillez l'entrez en majuscule!");
 		 return "VueEtudiant";
 	}
 	

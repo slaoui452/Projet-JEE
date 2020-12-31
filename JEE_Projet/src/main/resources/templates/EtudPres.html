@@ -16,15 +16,15 @@
 	<th>Module</th><th>Nombre d'absence</th>
 	</tr>
 	<tr th:each="p:${Etudiant_Abs}">
-		<th th:text="${p[0]}"></th>
-		<td th:text="${p[1]}"></td>
+		<th th:text="${p.get(0)}"></th>
+		<td th:text="${p.get(1)}"></td>
 	</tr>
 </table>
 		<br><br>
- <form th:action="@{/Conference}" method="get">
+ <form th:action="@{/index}" method="get">
 
     <input name="EtuId" type="hidden" th:value="${Code_Etudiant}">
-    <button type="submit" class="centerbtn"> Retour </button>
+    <button type="submit" class="centerbtn"> Quitter </button>
 
   </form>
 </body>

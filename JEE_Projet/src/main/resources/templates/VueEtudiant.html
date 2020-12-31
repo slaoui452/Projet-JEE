@@ -17,6 +17,7 @@
 		<form th:action="@{/AccessSucces}" method="get">
 			<input class="centerinput" type="text" placeholder="Entrez le Code QR" name="codeQr">
 			<input name="EtuId" type="hidden" th:value="${etudiant.getCode_etudiant()}">
+			<h1 class="error"><span th:text="${ERREUR}"></span></h1>
 			<br><br>
 			<button class="centerbtn" type="submit">Rejoindre la Conférence</button>
 		</form>

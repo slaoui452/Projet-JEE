@@ -237,25 +237,46 @@ public class ProfsController {
 		 Seance_actv SeanceActv=SeanceActvController.GetByGroupe(Groupe,seance_actv);
 		 List<Profs> Profs=profsrepository.findAll();
 		 Profs prof=GetByCode_Prof(Code_Prof,Profs);
-
+		 if (prof==null) {
+			 model.addAttribute("ERREUR","ERREUR: Code Professeur Incorrect, Veuillez Réessayer! ");
+			 return "Etudiants";
+		 }
 		 if (SeanceActv==null) {
+			 List<Etudiant> etudiants=etudiantrepository.findAll();
+			 List<Etudiant> etudianbygp = EtudiantController.GetlisteByGroupe(Groupe,etudiants);
+
+			 if (etudianbygp.size()==0) {
+				    model.addAttribute("ERREUR","ERREUR: Le Groupe Que Vous Demandez N'existe Pas!");
+				    return "Etudiants";
+			 }
 			 String rand=GetRandomCode();
 			 seance_actvrepository.save(new Seance_actv(0,Groupe,Code_Prof,rand));
 			 List<Seance_actv> seance_actv1=seance_actvrepository.findAll();
 			 Seance_actv SeanceActv1=SeanceActvController.GetByGroupe(Groupe,seance_actv1);
+
 			 List<Seances> seance=seanceRepository.findAll();
 			 Seances Seance=SeanceActvController.GetByGroupeprof(SeanceActv1.getGroupe(),SeanceActv1.getCode_prof(),seance);
 			 setSeance(Seance,SeanceActv1,prof);
-			 List<Etudiant> etudiants=etudiantrepository.findAll();
-			 List<Etudiant> etudianbygp = EtudiantController.GetlisteByGroupe(Groupe,etudiants);
 			 insertTEtudiant(etudianbygp,SeanceActv1); 
+			 model.addAttribute("code_prof",Code_Prof);
+			 model.addAttribute("prof",prof);
+			 model.addAttribute("listprofs",Profs);
+			 model.addAttribute("groupe",Groupe);
+			 return "VueProf";
+		 }
+
+		 if (SeanceActv.getCode_prof().equals(Code_Prof)) {
+			 model.addAttribute("code_prof",Code_Prof);
+			 model.addAttribute("prof",prof);
+			 model.addAttribute("listprofs",Profs);
+			 model.addAttribute("groupe",Groupe);
+			 return "VueProf";
+			 }
+		 else {
+			    model.addAttribute("ERREUR","ERREUR: Le Groupe Que Vous Demandez A Deja Une Seance Avec Un Autre Enseignant!");
+			    return "Etudiants";
 		 }
 		 
-		 model.addAttribute("code_prof",Code_Prof);
-		 model.addAttribute("prof",prof);
-		 model.addAttribute("listprofs",Profs);
-		 model.addAttribute("groupe",Groupe);
-		 return "VueProf";
 	}
 	
 //-------------------------------------------------------------------------------------------------------------------------	

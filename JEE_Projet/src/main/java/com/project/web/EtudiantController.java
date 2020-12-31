@@ -116,6 +116,7 @@ public class EtudiantController {
      */
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String index(Model model) {
+		model.addAttribute("ERREUR","");
 		 return "Etudiants";
 	}
 	
@@ -130,29 +131,35 @@ public class EtudiantController {
      * 
      * 				         
      */
-		public String[][] Get_Absence(String code_Etudiant) {
-			String[][] tab =new String[400][2];
+		public List<List<String>> Get_Absence(String code_Etudiant) {
+			List<List<String>> tab =new ArrayList<List<String>>();
+
 			List<Presencetable> presences=presencerepository.findAll();
-			List<Etudiant> etudiants=etudiantrepository.findAll();
 			List<Profs> Profs=profsrepository.findAll();
 
 			for (int i=0 ; i< Profs.size() ; i++){
-				
+				List<String> ligne = new ArrayList<String>();
+				ligne.add(Profs.get(i).getMatiere());// element 0 de chaque table represente 
 				int abs = 0;
+				int test = 0;
 				for ( int j=0 ; j<presences.size();j++ ){
 					
 					if (presences.get(j).getCode_etudiant().equals(code_Etudiant) &&  presences.get(j).getCode_prof().equals(Profs.get(i).getCode_prof()))
 					{	
-						tab[i][0]=Profs.get(i).getMatiere(); // element 0 de chaque table represente 
+						test = 1;
 						if (!(presences.get(j).isPresence())) 
 							{abs++;}
 					}
 			
 				}
-			tab[i][1]=Integer.toString(abs); // element 1 de chaque table est le nombre d abs sur chaque
-			
+			if (test == 1) {
+				ligne.add(Integer.toString(abs)); // element 1 de chaque table est le nombre d abs sur chaque
+		        System.out.println(ligne.toString());
+				tab.add(ligne);
 			}
-			//System.out.println("------>>>>>   " + tab[0][0].toString());
+
+			}
+			System.out.println(tab.toString());
 			return tab;
 		}
 	//----------------------------------------------------------------------------------------------------
@@ -193,7 +200,8 @@ public class EtudiantController {
 			}
 
 			catch(Exception e) {
-			  return "Etudiants";
+			    model.addAttribute("ERREUR","ERREUR: Code étudiant incorrect!");
+			    return "Etudiants";
 			}
 		 
 		 Etudiant etudiant=GetByCode_etudiant(Code_Etudiant,etudiants);
@@ -206,6 +214,13 @@ public class EtudiantController {
 			 model.addAttribute("prof",prof);
 			 model.addAttribute("SeanceActv",SeanceActv);
 			 model.addAttribute("QR_1",Base64.getEncoder().encodeToString(getQRCodeImage(SeanceActv.getMdp(),500,500)));
+			 String CodeQr=SeanceActv.getMdp();
+				List<Presencetable> presence = presencerepository.findAll();
+			 Presencetable present = SeanceActvController.present(CodeQr,Code_Etudiant,presence);
+	
+			 if(present==null)
+				return "Conference";
+			 model.addAttribute("ERREUR","");
 			 return "VueEtudiant";
 		 }
 			catch(Exception e) {
@@ -228,7 +243,7 @@ public class EtudiantController {
 	@RequestMapping(value="/TableauEtud",method=RequestMethod.GET)
 	public String PresenceEtud(Model model,
 			@RequestParam(name="uidetd",defaultValue="") String Code_Etudiant){
-		 String[][] Etudiant_Abs=Get_Absence(Code_Etudiant);
+		 List<List<String>> Etudiant_Abs=Get_Absence(Code_Etudiant);
 		 model.addAttribute("Etudiant_Abs",Etudiant_Abs);
 		 model.addAttribute("Code_Etudiant",Code_Etudiant);
 		 return "EtudPres";

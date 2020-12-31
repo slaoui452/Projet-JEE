@@ -465,6 +465,16 @@ nav > ul li:hover .sous{
   margin-right: 40px;
   margin-top: 45vh;
 }
+.error{
+  text-align:center;
+  width: 100%;
+    font-size: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  margin-top: 4vh;
+  color:#ff0000
+}
 .loggin{
 
 font-size: 14px;
@@ -476,6 +486,7 @@ margin-right: 31%;
 margin-top: 45vh;
 
 }
+
 .Active{
  border-bottom: 3px solid currentColor;
  padding-bottom: 5px;
