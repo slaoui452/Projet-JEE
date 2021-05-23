@@ -10,6 +10,7 @@
     3. [Interface Professeur :](#Professeur)
 3. [Conclusion :](#Conclusion)
 4. [Utilisation de l’application :](#Utilisation)
+5. [Contributeurs :](#Contributeurs)
 
 ## Introduction : <a name="introduction"></a>
 
@@ -103,3 +104,11 @@ Démarrer `Apache` et `MySQL` sur Xampp puis rendez-vous sur `localhost/phpmyadm
 ### Lancement :
 
 Il ne vous reste que d'exécuter le code java et Accéder à `localhost:8890/index` pour lancer et tester l’application.
+
+
+## Contributeurs : <a name="Contributeurs"></a>
+
+* Mehdi Slaoui
+* Aymane Hmidich
+* Sayfeddine Addou
+* Khalil Hadji
