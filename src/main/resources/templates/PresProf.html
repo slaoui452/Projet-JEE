@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeLeaf.org">
+<head>
+<meta charset="utf-8">
+<title>Tableau de presence</title>
+<link rel="stylesheet" href="StyleVue.css">
+</head>
+
+<body>
+<br><br>
+<h1 style="text-align:center"> Le tableau de présence du groupe <span th:text="${Tableau.get(0).Groupe}"></span> en module <span th:text="${matiere}"></span></h1>
+
+<br><br>
+<table id="maTable2">
+	<tr>
+	<th>Code Etudiant</th><th>Nom</th><th>Prénom</th>
+	<th>Seance1</th><th>Seance2</th><th>Seance3</th><th>Seance4</th>
+	<th>Seance5</th><th>Seance6</th><th>Seance7</th><th>Seance8</th>
+	<th>Seance9</th><th>Seance10</th>
+	</tr>
+	<tr th:each="p:${Tableau}">
+		<th th:text="${p.Code_Etudiant}"></th>
+		<td th:text="${p.Nom}"></td>
+		<td th:text="${p.getprenom()}"></td>
+		<td th:text="${p.Seance0}"></td>
+		<td th:text="${p.Seance1}"></td>
+		<td th:text="${p.Seance2}"></td>
+		<td th:text="${p.Seance3}"></td>
+		<td th:text="${p.Seance4}"></td>
+		<td th:text="${p.Seance5}"></td>
+		<td th:text="${p.Seance6}"></td>
+		<td th:text="${p.Seance7}"></td>
+		<td th:text="${p.Seance8}"></td>
+		<td th:text="${p.Seance9}"></td>
+	</tr>
+</table>
+		<br><br><br>
+ <form th:action="@{/Espace_Profs}" method="get">
+
+    <input name="uidprof" type="hidden" th:value="${Code_Prof}">
+    <input name="groupe" type="hidden" th:value="${Tableau.get(0).Groupe}">
+
+
+    <button type="submit" class="centerbtn"> Retour </button>
+
+  </form>
+</body>
+</html>

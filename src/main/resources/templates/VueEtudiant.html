@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeLeaf.org">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="StyleVue.css">
+<title>Welcome</title>
+
+</head>
+<body>
+
+<br><br><br>
+<h1 style="text-align:center"> Bienvenue, <span th:text="${etudiant.getNom()}"></span> <span th:text="${etudiant.getprenom()}"></span></h1>
+
+<br>
+		<h2 class="centerh2">Vous avez un cours maintenant en module <span th:text="${prof.getMatiere()}"></span>. Veillez scanner le code QR ci-dessous et entrez le code pour marquer votre presence.</h2>
+		<img class="centerimg" th:src="${QR_1} == null ? _ : @{'data:image/png;base64,'+${QR_1}}"/>
+		<form th:action="@{/AccessSucces}" method="get">
+			<input class="centerinput" type="text" placeholder="Entrez le Code QR" name="codeQr">
+			<input name="EtuId" type="hidden" th:value="${etudiant.getCode_etudiant()}">
+			<h1 class="error"><span th:text="${ERREUR}"></span></h1>
+			<br><br>
+			<button class="centerbtn" type="submit">Rejoindre la Conférence</button>
+		</form>
+</body>
+
+</html>
